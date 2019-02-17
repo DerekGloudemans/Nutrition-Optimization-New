@@ -155,7 +155,17 @@ def lin_solver(data,nut_names, food_names, constraints, weights,bounds, weightin
         for i in range (0,len(weights)):
             if weights[i] != 0:
                 c[i] = 0
-    
+                
+    newbounds = []
+    for item in bounds:
+        minbound = item[0]
+        maxbound = item[1]
+        if item[0] == 0:
+            minbound = None
+        if item[1] == 10000:
+            maxbound = None
+        newbounds.append((minbound,maxbound))
+            
     
     #Run linear program solver
     result = linprog(c, A_ub=A, b_ub=b, bounds = bounds,method = 'interior-point')
@@ -207,6 +217,19 @@ def iter_removal_solver(data,nut_names, food_names, constraints, weights, weight
         display_result((all_results[-1]))
     return result2
 
+# returns percentage of min for each nutrient for each ingredient
+def nutrients_per_ingredient(x,data,nut_names,food_names):
+
+    perfoodmat = data
+    
+    for i in range(0,len(food_names)):
+        for j in range (0,len(nut_names)):
+            perfoodmat[i,j] = data[i,j] * x[i] 
+    
+    return perfoodmat
+
+
+
 ################################ BEGIN BODY CODE ##############################
 
 
@@ -224,3 +247,5 @@ weight = result.fun * 100
 #result2 = iter_removal_solver(data,nut_names, food_names, constraints,weights, weighting = -1, step_size = 1, show = True)   
     
     
+temp = np.nan_to_num(nutrients_per_ingredient(x,data,nut_names,food_names))
+#totals = np.matmul(data,x) / np.nan_to_num(con           vstraints[0,:])

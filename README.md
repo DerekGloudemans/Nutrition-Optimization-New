@@ -1,9 +1,8 @@
 # Nutrition-Optimization-New
-Implements a linear program solver to create an optimal diet based on a large database of foods and nutritional content. 
+This repo implements a linear program solver to create an optimal diet based on a large database of foods and nutritional content. I originally created this program in attempt to optimize my own health, and have been happily eating a program-recommended chili 5 days a week since March of 2019! Nutritional data was obtained by downloading the database files from the [USDA's Food Composition Database](https://fdc.nal.usda.gov/download-datasets.html). This dataset contains nutritional content information for over 9000 foods and over 100 nutrients. Nutritional guidelines were estimated for a 25 year-old male based on [health.gov](https://health.gov/dietaryguidelines/2015/guidelines/appendix-7/) and (The National Academies Press dietary references](https://www.nap.edu/read/11537/chapter/33).  
 
-Nutritional data was obtained by downloading the database files from the USDA's Food Composition Database. This dataset contains nutritional content information for over 9000 foods and over 100 nutrients. 
-
-1 - data_parse.py is used to convert these .csv files into a more human-readable form, where each row of the CSV represents a food and each column represents a nutrient.
+The nuts and bolts of 
+1 - data_parse.py is used to convert the USDA's Food Composition Database .csv files into a more human-readable form, where each row of the CSV represents a food and each column represents a nutrient.
 
 2 - linear_solver.py is used to formulate the task of selecting a diet with optimal nutritional content as a linear program. Nutritional minimums and maximums are input as constraints to the program, and the objective function seeks to minimize the overall weight of selected foods. As of now, the mechanism for interacting with the solver is a bit clunky, and I am still thinking of a more elegant way to input constraints, etc. 
 

@@ -1,15 +1,14 @@
 # optimize as a linear program with nutrient guidelines as constraints
 from scipy.optimize import linprog
 from scipy.optimize import minimize
-import pickle
-import csv
+import _pickle as cPickle
 import numpy as np
 import pandas as pd
 
 def prep_data():
     # 1. load data from pickle files
-    f = open("Data/Nutrition_Data_Matrix.pkl", 'rb')
-    data_all = pickle.load(f)
+    f = open("Data/Nutrition_Data_Matrix.cpkl", 'rb')
+    data_all = cPickle.load(f)
     f.close()
     food_names = data_all[0] 
     nut_names = data_all[1]
@@ -80,7 +79,6 @@ def display_result(data_in):
     nut_names = data_in[2]
     data = data_in[1]
     x = result.x
-    mass = result.fun * 100
     
     included_foods = []
     for i in range(0,len(x)):
@@ -89,7 +87,7 @@ def display_result(data_in):
             
     print("Warning: highly optimal diet comin' up:\n")
     for item in included_foods:
-        print("Eat {} grams of {}.".format(item[1]*float(100),item[0])) 
+        print("Eat {} grams of {}.".format(np.round(item[1]*float(100),decimals=1),item[0])) 
         
     
     data = np.transpose(data)
@@ -98,9 +96,9 @@ def display_result(data_in):
     print("\nThis diet contains the following nutrients:\n")
     nuts = np.matmul(data,x)
     for i in range(0, len(nuts)):
-        print("{} {} of {}".format(nuts[i,0],nut_names[i]['unit'], \
+        print("{} {} of {}".format(np.round(nuts[i,0],decimals=1),nut_names[i]['unit'], \
               nut_names[i]['nutrient_name']))
-
+    print("Total weight: {}g  ({} g non-water)".format(np.sum(x*100),(np.sum(x*100)-nuts[4])))
 
 def lin_solver(data,nut_names, food_names, constraints, weights,bounds, weighting = -1, show = False):
     # Problem formulation notes:
@@ -156,15 +154,6 @@ def lin_solver(data,nut_names, food_names, constraints, weights,bounds, weightin
             if weights[i] != 0:
                 c[i] = 0
                 
-    newbounds = []
-    for item in bounds:
-        minbound = item[0]
-        maxbound = item[1]
-        if item[0] == 0:
-            minbound = None
-        if item[1] == 10000:
-            maxbound = None
-        newbounds.append((minbound,maxbound))
             
     
     #Run linear program solver
@@ -248,4 +237,4 @@ weight = result.fun * 100
     
     
 temp = np.nan_to_num(nutrients_per_ingredient(x,data,nut_names,food_names))
-#totals = np.matmul(data,x) / np.nan_to_num(con           vstraints[0,:])
+#totals = np.matmul(data,x) / np.nan_to_num(constraints[0,:])

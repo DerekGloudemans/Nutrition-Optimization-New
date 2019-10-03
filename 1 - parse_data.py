@@ -4,13 +4,13 @@
 
 import numpy as np
 import csv
-import pickle
+import _pickle as cPickle
 
 
 
 # 1.Create list of all food ID numbers (NDB_No) and name (dicts)
 food_list = []
-file1 = open('FOOD_DES.csv', encoding = 'utf-8')
+file1 = open('Data/FOOD_DES.csv', encoding = 'utf-8')
 csv_reader = csv.reader(file1,delimiter = ',')
 
 for item in csv_reader:
@@ -29,7 +29,7 @@ food_nutrient_list = []
 
 # each line of Nutrients.csv:
 # ['NDB_No', 'Nutrient_Code', 'Nutrient_name', 'Derivation_Code', 'Output_value', 'Output_uom']
-file2 =  open('NUT_DATA.csv', encoding = 'utf-8')
+file2 =  open('Data/NUT_DATA.csv', encoding = 'utf-8')
 csv_reader = csv.reader(file2, delimiter = ',')
 
 for item in csv_reader:
@@ -50,7 +50,7 @@ file2.close()
 # used to store unique nutrients
 all_nutrients = []
 
-file3 =  open('NUTR_DEF.csv', encoding = 'utf-8')
+file3 =  open('Data/NUTR_DEF.csv', encoding = 'utf-8')
 csv_reader = csv.reader(file3, delimiter = ',')
 
 for item in csv_reader:
@@ -104,7 +104,7 @@ for item in food_nutrient_list:
 # 7. Pickle these final data structure
 
 # Commented for safety
-#f = open("Nutrition_Data_Matrix.pkl", 'wb')
-#pickle.dump((food_list,all_nutrients,food_nutrient_mat),f)
+#f = open("Nutrition_Data_Matrix.cpkl", 'wb')
+#cPickle.dump((food_list,all_nutrients,food_nutrient_mat),f)
 #f.close()
 #print("All data pickled.")

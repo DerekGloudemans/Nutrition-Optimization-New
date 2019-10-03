@@ -2,8 +2,8 @@
 This repo implements a linear program solver to create an optimal diet based on a large database of foods and nutritional content. I originally created this program in attempt to optimize my own health, and have been happily eating a program-recommended chili 5 days a week since March of 2019! Nutritional data was obtained by downloading the database files from the [USDA's Food Composition Database](https://fdc.nal.usda.gov/download-datasets.html). This dataset contains nutritional content information for over 9000 foods and over 100 nutrients. Nutritional guidelines were estimated for a 25 year-old male based on [health.gov](https://health.gov/dietaryguidelines/2015/guidelines/appendix-7/) and [The National Academies Press dietary references](https://www.nap.edu/read/11537/chapter/33).  
 
 Here's an example diet output by the program:
-![ex_foods](ex_foods.png)
-![ex_nutrients](ex_nutrients.png)
+![ex_foods](ex_foods.PNG)
+![ex_nutrients](ex_nutrients.PNG)
 
 
 The nuts and bolts of how to run the code are detailed below. It is a bit clunky to work with as it relies on inputing nutrient and food constraints into two separate excel csv files. Sorry :(
